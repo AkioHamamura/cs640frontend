@@ -1,16 +1,16 @@
-import Cookies from "js-cookie";
+import {Cookies} from "cookie";
 import { useState } from 'react';
 
 export default function DbQuery() {
   const [query, setQuery] = useState('');
   const [result] = useState([]);
 
-  const storeToken = (token) => {
+  const storeToken = (token: string) => {
     Cookies.set('jwtToken', token, { expires: 7 });
   };
 
-  const getToken = () => {
-    return Cookies.get('jwtToken');
+  const getToken = (): { [p: string]: string } | undefined | string => {
+    return Cookies.get('jwtToken' as string);
   };
 
   const login = async () => {
@@ -26,7 +26,7 @@ export default function DbQuery() {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: "follow" as RequestRedirect,
     };
 
     fetch("http://3.147.112.156:82/login", requestOptions)
@@ -57,7 +57,7 @@ export default function DbQuery() {
         .catch(error => console.error('Error:', error));
   };
 
-  const handleQueryChange = (e) => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setQuery(e.target.value);
   };
 
@@ -83,7 +83,7 @@ export default function DbQuery() {
               {result.map((row, index) => (
                   <tr key={index}>
                     {Object.values(row).map((value  , i) => (
-                        <td key={i}>{(value)}</td>
+                        <td key={i}>{String(value)}</td>
                     ))}
                   </tr>
               ))}
