@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useState } from 'react';
 
-export default function DbQuery() {
+/*export default function DbQuery() {
   const [query, setQuery] = useState('');
   const [result] = useState([]);
 
@@ -13,13 +13,17 @@ export default function DbQuery() {
     return Cookies.get('jwtToken');
   };
 
-  const login = async () => {
+  const login = async (email, password) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
+    if (!email || !password) {
+      alert('Email and password are required');
+      return;
+    }
     const raw = JSON.stringify({
-      "email": "hello@world.com",
-      "password_hash": "123"
+      email,
+      password
     });
 
     const requestOptions = {
@@ -92,4 +96,4 @@ export default function DbQuery() {
         )}
       </div>
   );
-}
+}*/
