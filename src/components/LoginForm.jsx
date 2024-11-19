@@ -34,7 +34,7 @@ export default function LoginForm() {
             redirect: "follow",
         };
 
-        fetch("http://3.147.112.156:82/login", requestOptions)
+        fetch("https://66bbde825f32933a6b62df87b3e6a5c2-4970821.us-east-2.elb.amazonaws.com//login", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result);

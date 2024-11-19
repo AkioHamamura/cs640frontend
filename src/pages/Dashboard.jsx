@@ -40,7 +40,7 @@ const fetchData = async () => {
     }
 
     try {
-        const response = await fetch('http://3.147.112.156:82/api/Users', {
+        const response = await fetch('http://3.147.112.156:82/api/Properties', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
