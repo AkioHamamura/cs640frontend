@@ -16,7 +16,7 @@ const getUsers = async () => {
         return;
     }
 
-    fetch('http://3.147.112.156:82/api/Users', {
+    fetch('https://cs640.icu/api/Users', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const getProperties = async () => {
         return;
     }
 
-    fetch('http://3.147.112.156:82/api/Properties', {
+    fetch('https://cs640.icu/api/Properties', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
