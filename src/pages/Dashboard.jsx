@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import CRUD from '../components/CRUD';
-import Cookies from 'js-cookie';
+import {getToken, getProperties, getUsers, getPackages} from "../components/CRUD";
+import Cookies from "js-cookie";
 
+const endpoint = 'http://3.147.112.156';
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -18,19 +19,18 @@ const navigation = [
     { name: 'Payments', href: '#', current: false },
 ];
 
+const logout = () =>{
+    Cookies.remove('jwtToken');
+    window.location.href = "/login";
+}
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Sign out', href: '/login' },
 ];
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
-
-const getToken = () => {
-    return Cookies.get('jwtToken');
-};
 
 const fetchData = async () => {
     const token = getToken();
@@ -40,7 +40,7 @@ const fetchData = async () => {
     }
 
     try {
-        const response = await fetch('https://cs640.icu/api/Properties', {
+        const response = await fetch(`${endpoint}/api/Properties`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,6 +48,7 @@ const fetchData = async () => {
             }
         });
         const data = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error:', error);

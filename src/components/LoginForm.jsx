@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-
+const endpoint = 'http://3.147.112.156';
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,7 +34,7 @@ export default function LoginForm() {
             redirect: "follow",
         };
 
-        fetch("https://cs640.icu/login", requestOptions)
+        fetch(`${endpoint}/login`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result);
