@@ -3,7 +3,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import {getToken, getProperties, getUsers, getPackages} from "../components/CRUD";
 import Cookies from "js-cookie";
-
+import Example from "../components/Table/Table.tsx";
 const endpoint = 'http://3.147.112.156';
 const user = {
     name: 'Tom Cook',
@@ -50,9 +50,7 @@ const fetchData = async () => {
         const data = await response.json();
         console.log(data);
         return data;
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    } catch (error) {console.error('Error:', error);}
 };
 
 export default function Dashboard() {
@@ -195,9 +193,7 @@ export default function Dashboard() {
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
                     </div>
                 </header>
-                {/* Main content */}
-                <main>
-                    <div className="mx-auto max-w-7xl px-9 py-6 sm:px-6 lg:px-8">
+                {/* Main content                     <div className="mx-auto max-w-7xl px-9 py-6 sm:px-6 lg:px-8">
                         {result.length > 0 && (
                             <table>
                                 <thead>
@@ -218,7 +214,9 @@ export default function Dashboard() {
                                 </tbody>
                             </table>
                         )}
-                    </div>
+                    </div>*/}
+                <main>
+                    <Example/>
                 </main>
                 {/* Main content */}
             </div>

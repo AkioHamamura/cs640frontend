@@ -55,23 +55,23 @@ export const getUsers = async () => {
 
 export const getProperties = async () => {
     const token = getToken();
-    let result;
     if (!token) {
         console.error('No token found');
         return;
     }
 
-    fetch(`${endpoint}/api/Properties`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(response => response.json())
-        .then(data => result = (data))
-        .catch(error => console.error('Error:', error));
-    return result;
+    try {
+        const response = await fetch(`${endpoint}/api/Properties`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {console.error('Error:', error);}
 };
 
 /*--------------------------Select------------------------------------------*/
