@@ -172,3 +172,26 @@ export default function DbQuery() {
 
 
 }
+/*--------------------------Update------------------------------------------*/
+//Edit property
+export const updateProperty = async (data) => {
+    console.log(data);
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/update/Properties`,{
+            method:'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+        //data should have property_id, name, address, city, state, zip, phone
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};

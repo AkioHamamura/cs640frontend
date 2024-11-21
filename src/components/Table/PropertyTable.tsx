@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-
+import {updateProperty} from '../CRUD.jsx'
 
 import {
     MaterialReactTable,
@@ -20,7 +20,6 @@ type Property = {
 };
 
 const PropertyTable = (Properties : any) => {
-
     //should be memoized or stable
     const data: Property[] = Properties.data;
 
@@ -66,6 +65,24 @@ const PropertyTable = (Properties : any) => {
     );
 
     const table = useMaterialReactTable({
+        enableRowSelection: true,
+        enableMultiRowSelection: false,
+        enableEditing: true,
+        editDisplayMode: 'modal',
+        //onEditingRowSave: ({ exitEditingMode, row, table, values}) => Promise<void> | void
+        onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
+            const newValues ={
+                address: values.address,
+                city: values.city,
+                name: values.name,
+                phone: values.phone,
+                property_id: values.property_id,
+                state: values.state,
+                zip: values.zip,
+            }
+            updateProperty(newValues);
+            exitEditingMode();
+        },
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     });

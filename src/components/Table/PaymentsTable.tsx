@@ -62,6 +62,7 @@ const PaymentsTable = (Payments : any) => {
     );
 
     const table = useMaterialReactTable({
+        enableRowSelection: true,
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     });

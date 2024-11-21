@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 
 import {
     MaterialReactTable,
     useMaterialReactTable,
-    type MRT_ColumnDef,
+    type MRT_ColumnDef, MRT_RowSelectionState,
 } from 'material-react-table';
 import React from 'react';
 
@@ -94,12 +94,26 @@ const ResidentsTable = (Residents : any) => {
         ],
         [],
     );
-
+    const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
     const table = useMaterialReactTable({
+        enableRowSelection: true,
+        enableMultiRowSelection: false,
+        onRowSelectionChange: setRowSelection,
+        state: { rowSelection },
+        enableEditing: true,
+        editDisplayMode: 'modal',
+        //onEditingRowSave: ({ exitEditingMode, row, table, values}) => Promise<void> | void
+        onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
+            console.log(values);
+            exitEditingMode();
+        },
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     });
-
+    useEffect(() => {
+        //fetch data based on row selection state or something
+        console.log(rowSelection);
+    }, [table.getState().rowSelection]);
     return <MaterialReactTable table={table} />;
 };
 
