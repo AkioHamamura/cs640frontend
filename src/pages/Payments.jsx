@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import {getToken, getProperties, getUsers, getPackages} from "../components/CRUD";
-import Cookies from "js-cookie";
-import Example from "../components/Table/Table.tsx";
-const endpoint = 'http://3.147.112.156';
+import {getPayments} from "../components/CRUD";
+import PaymentsTable from "../components/Table/PaymentsTable.tsx";
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -12,17 +10,12 @@ const user = {
 };
 
 const navigation = [
-    { name: 'Dashboard', href: '/', current: true },
+    { name: 'Dashboard', href: '/', current: false },
     { name: 'Properties', href: 'Properties', current: false },
     { name: 'Residents', href: 'Residents', current: false },
     { name: 'Work orders', href: 'WorkOrder', current: false },
-    { name: 'Payments', href: 'Payments', current: false },
+    { name: 'Payments', href: 'Payments', current: true },
 ];
-
-const logout = () =>{
-    Cookies.remove('jwtToken');
-    window.location.href = "/login";
-}
 const userNavigation = [
     { name: 'Sign out', href: '/login' },
 ];
@@ -32,53 +25,13 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-const fetchData = async () => {
-    const token = getToken();
-    if (!token) {
-        console.error('No token found');
-        return;
-    }
 
-    try {
-        const response = await fetch(`${endpoint}/api/Properties`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        const data = await response.json();
-        console.log(data);
-        return data;
-    } catch (error) {console.error('Error:', error);}
-};
-const isLoggedIn = async() =>{
-    const token = getToken();
-    if (!token) {
-        window.location.href = "/login"
-    }
-    //Validate the token
-    try{
-        const response = await fetch(`${endpoint}/api`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-        }
-        });
-        const data = await response.json();
-        if (data.message !== "Valid"){
-            Cookies.remove('jwtToken');
-            window.location.href = "/login"
-        }
-    } catch (e) {
-        console.error('Error:', e);
-    }
-}
+export default function PaymentsPage() {
+    const [payments, setPayments] = useState([]);
+    useEffect(() => {
+        getPayments().then(data => setPayments(data));
+    }, []);
 
-export default function Dashboard() {
-
-    isLoggedIn();
     return (
         <>
             <div className="min-h-full ">
@@ -206,7 +159,10 @@ export default function Dashboard() {
 
                 {/* Main content */}
                 <main>
-                    <Example/>
+                    <div className={"px-28 pt-14"}>
+
+                        <PaymentsTable data={payments}/>
+                    </div>
                 </main>
                 {/* Main content */}
             </div>

@@ -30,6 +30,25 @@ export const getPackages = async () => {
     //return result;
 };
 
+export const getPayments = async () => {
+    const token = getToken();
+    if (!token) {
+        console.error('No token found');
+        return;
+    }
+    try {
+        const response = await fetch(`${endpoint}/api/Payments`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {console.error('Error:', error);}
+}
 
 export const getUsers = async () => {
     const token = getToken();
@@ -73,6 +92,50 @@ export const getProperties = async () => {
         return data;
     } catch (error) {console.error('Error:', error);}
 };
+export const getMaintenanceRequests = async () =>{
+    const token = getToken();
+    if (!token) {
+        console.error('No token found');
+        return;
+    }
+    try {
+        const response = await fetch(`${endpoint}/api/MaintenanceRequests`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }catch(e){console.error('Error:', e);}
+
+}
+export const getResidents = async () => {
+    const token = getToken();
+    if (!token) {
+        console.error('No token found');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/adv/Residents`,{
+           method: 'GET',
+            headers:{
+               'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+
+    }catch (e){
+        console.error('Error:', e);
+    }
+
+
+}
 
 /*--------------------------Select------------------------------------------*/
 
