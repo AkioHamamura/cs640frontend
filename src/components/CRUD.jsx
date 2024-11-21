@@ -142,7 +142,7 @@ export const getResidents = async () => {
 
 
 export default function DbQuery() {
-    const [result, setResult] = useState([]);
+    const [result] = useState([]);
     return (
         <div>
             {result.length > 0 && (
