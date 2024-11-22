@@ -29,6 +29,7 @@ const PropertyTable = (Properties : any) => {
                 accessorKey: 'property_id', //access nested data with dot notation
                 header: 'Property ID',
                 size: 150,
+                enableEditing: false,
             },
             {
                 accessorKey: 'name',

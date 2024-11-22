@@ -7,6 +7,7 @@ import {
     type MRT_ColumnDef,
 } from 'material-react-table';
 import React from 'react';
+import {updateMaintenanceRequest} from '../CRUD.jsx'
 
 //example data type
 type Maintenance = {
@@ -32,15 +33,25 @@ const MaintenanceTable = (Maintenance : any) => {
                 accessorKey: 'request_id',
                 header: 'Request ID',
                 size: 10,
+                enableEditing: false,
             },
             {
                 accessorKey: 'unit_id',
                 header: 'Unit ID',
                 size: 10,
+                enableEditing: false,
+
             },
             {
                 accessorKey: 'description',
                 header: 'Description',
+                size: 50,
+                enableEditing: false,
+
+            },
+            {
+                accessorKey: 'priority',
+                header: 'Priority',
                 size: 50,
             },
             {
@@ -52,6 +63,8 @@ const MaintenanceTable = (Maintenance : any) => {
                 accessorKey: 'submitted_at',
                 header: 'Created At',
                 size: 50,
+                enableEditing: false,
+
             },
             {
                 accessorKey: 'resolved_at',
@@ -67,6 +80,8 @@ const MaintenanceTable = (Maintenance : any) => {
                 accessorKey: 'user_id',
                 header: "Requester's ID",
                 size: 10,
+                enableEditing: false,
+
             },
 
         ],
@@ -74,7 +89,19 @@ const MaintenanceTable = (Maintenance : any) => {
     );
 
     const table = useMaterialReactTable({
-        enableRowSelection: true,
+        enableEditing: true,
+        editDisplayMode: 'modal',
+        onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
+            console.log(values);
+            const newValues ={
+                request_id: values.request_id,
+                priority: values.priority,
+                status: values.status,
+                resolution_notes: values.resolution_notes,
+            }
+            updateMaintenanceRequest(newValues);
+            exitEditingMode();
+        },
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     });

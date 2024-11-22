@@ -3,7 +3,7 @@
 //Will return the data from the database and display it in a table format.
 import Cookies from "js-cookie";
 import {useState} from "react";
-const endpoint = 'http://3.147.112.156';
+const endpoint = 'https://www.app.cs640.icu';
 export const getToken = () => {
     return Cookies.get('jwtToken');
 };
@@ -194,4 +194,49 @@ export const updateProperty = async (data) => {
         console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
+};
+
+//Edit maintenance status
+export const updateMaintenanceRequest = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/update/MaintenanceRequests`,{
+            method:'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            //data should have request_id, priority, status, resolution_notes
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};
+
+//Update payment status
+export const updatePaymentStatus = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/update/Payments`,{
+            method:'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            //data should have payment_id, status
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+
 };
