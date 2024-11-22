@@ -13,8 +13,8 @@ const navigation = [
     { name: 'Dashboard', href: '/', current: false },
     { name: 'Properties', href: '/Properties', current: false },
     { name: 'Residents', href: '/Residents', current: false },
-    { name: 'Work orders', href: 'WorkOrder', current: true },
-    { name: 'Payments', href: 'Payments', current: false },
+    { name: 'Work orders', href: '/WorkOrder', current: true },
+    { name: 'Payments', href: '/Payments', current: false },
 ];
 const userNavigation = [
     { name: 'Sign out', href: '/login' },

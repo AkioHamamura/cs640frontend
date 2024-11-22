@@ -14,8 +14,8 @@ const navigation = [
     { name: 'Dashboard', href: '/', current: true },
     { name: 'Properties', href: '/Properties', current: false },
     { name: 'Residents', href: '/Residents', current: false },
-    { name: 'Work orders', href: 'WorkOrder', current: false },
-    { name: 'Payments', href: 'Payments', current: false },
+    { name: 'Work orders', href: '/WorkOrder', current: false },
+    { name: 'Payments', href: '/Payments', current: false },
 ];
 const userNavigation = [
     { name: 'Sign out', href: '/login' },
