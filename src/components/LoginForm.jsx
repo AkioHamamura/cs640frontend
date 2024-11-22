@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-const endpoint = 'https://amplify.cs640.icu6';
+const endpoint = 'https://amplify.cs640.icu';
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
