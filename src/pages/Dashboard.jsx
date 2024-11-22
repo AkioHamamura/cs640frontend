@@ -3,7 +3,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import {getToken} from "../components/CRUD";
 import Cookies from "js-cookie";
 import Example from "../components/Table/Table.tsx";
-const endpoint = 'http://3.147.112.156';
+const endpoint = 'https://amplify.cs640.icu';
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',

@@ -3,7 +3,7 @@
 //Will return the data from the database and display it in a table format.
 import Cookies from "js-cookie";
 import {useState} from "react";
-const endpoint = 'https://www.app.cs640.icu';
+const endpoint = 'https://amplify.cs640.icu';
 export const getToken = () => {
     return Cookies.get('jwtToken');
 };
