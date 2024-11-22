@@ -5,6 +5,7 @@ import {
     type MRT_ColumnDef,
 } from 'material-react-table';
 import React from 'react';
+import {Box, IconButton} from "@mui/material";
 
 //example data type
 type Person = {
@@ -102,9 +103,31 @@ const Example = () => {
     const table = useMaterialReactTable({
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-    });
+        enableRowActions: true,
+        renderRowActions: ({ row }) => (
+            <Box>
+                <IconButton onClick={() => {console.info(row)}}>
+                    delete
+                </IconButton>
+            </Box>
+        ),
+        renderTopToolbar:({}) => (
+            <Box>
+                <IconButton onClick={() => {
+                    //Open a modal with a form to add a new user
 
-    return <MaterialReactTable table={table} />;
+
+
+
+                    console.info('Add')}
+
+                }>
+                    Add User
+                </IconButton>
+            </Box>
+        )
+    });
+    return <MaterialReactTable table={table} />
 };
 
 export default Example;

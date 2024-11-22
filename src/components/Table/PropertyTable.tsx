@@ -7,6 +7,7 @@ import {
     type MRT_ColumnDef,
 } from 'material-react-table';
 import React from 'react';
+import {Box, Button, IconButton} from "@mui/material";
 
 //example data type
 type Property = {
@@ -69,8 +70,7 @@ const PropertyTable = (Properties : any) => {
         enableRowSelection: true,
         enableMultiRowSelection: false,
         enableEditing: true,
-        editDisplayMode: 'modal',
-        //onEditingRowSave: ({ exitEditingMode, row, table, values}) => Promise<void> | void
+        editDisplayMode: 'row',
         onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
             const newValues ={
                 address: values.address,
@@ -84,6 +84,20 @@ const PropertyTable = (Properties : any) => {
             updateProperty(newValues);
             exitEditingMode();
         },
+        renderBottomToolbar:({}) => (
+            <Box>
+                    <Button onClick={()=>{
+                        //Open a modal with a form to add a new user
+                        console.info('Add')
+                    }} variant="contained" color="success" >Add Property</Button>
+
+                    <Button onClick={()=>{
+                        //Open a modal with a form to add a new user
+                        console.info('Add')
+                    }} variant="contained" color="error" >Delete Property</Button>
+            </Box>
+        ),
+
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     });
