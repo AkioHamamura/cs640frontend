@@ -1,8 +1,10 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import {getToken, getUnits} from "../components/CRUD";
+import {getMaintenanceRequests, getToken, getUnits} from "../components/CRUD";
 import Cookies from "js-cookie";
 import Example from "../components/Table/Table.tsx";
+import {useEffect, useState} from "react";
+import {data} from "autoprefixer";
 const endpoint = 'https://amplify.cs640.icu';
 const user = {
     name: 'Tom Cook',
@@ -50,8 +52,13 @@ const isLoggedIn = async() =>{
 }
 
 export default function Dashboard() {
-
     isLoggedIn();
+
+    const [units, setUnits] = useState([]);
+    useEffect(() => {
+        getUnits().then(data => setUnits(data));
+    }, []);
+
     return (
         <>
             <div className="min-h-full ">
@@ -179,7 +186,7 @@ export default function Dashboard() {
 
                 {/* Main content */}
                 <main>
-                    <Example/>
+                    <Example data={units}/>
                 </main>
                 {/* Main content */}
             </div>

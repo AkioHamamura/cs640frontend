@@ -392,9 +392,9 @@ export const deleteUnit = async (data) =>{
         const response = await fetch(`${endpoint}/api/delete/Units`,{
             method: "DELETE",
             headers:{
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            } ,
+            },
             body: JSON.stringify(data)
         })
         const result = await response.json();

@@ -6,95 +6,59 @@ import {
 } from 'material-react-table';
 import React from 'react';
 import {Box, Button, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
+// @ts-ignore
+import {updateUnit, createUnit, deleteUnit} from "../CRUD.jsx";
 
-//example data type
-type Person = {
-    name: {
-        firstName: string;
-        lastName: string;
-    };
-    address: string;
-    city: string;
-    state: string;
-};
+type Unit = {
+    unit_id: number;
+    property_id: number;
+    unit_number: string;
+    monthly_rent: string;
+    bedrooms: number;
+    bathrooms: number;
+    square_feet: number;
+}
 
-//nested data is ok, see accessorKeys in ColumnDef below
-const data: Person[] = [
-    {
-        name: {
-            firstName: 'John',
-            lastName: 'Doe',
-        },
-        address: '261 Erdman Ford',
-        city: 'East Daphne',
-        state: 'Kentucky',
-    },
-    {
-        name: {
-            firstName: 'Jane',
-            lastName: 'Doe',
-        },
-        address: '769 Dominic Grove',
-        city: 'Columbus',
-        state: 'Ohio',
-    },
-    {
-        name: {
-            firstName: 'Joe',
-            lastName: 'Doe',
-        },
-        address: '566 Brakus Inlet',
-        city: 'South Linda',
-        state: 'West Virginia',
-    },
-    {
-        name: {
-            firstName: 'Kevin',
-            lastName: 'Vandy',
-        },
-        address: '722 Emie Stream',
-        city: 'Lincoln',
-        state: 'Nebraska',
-    },
-    {
-        name: {
-            firstName: 'Joshua',
-            lastName: 'Rolluffs',
-        },
-        address: '32188 Larkin Turnpike',
-        city: 'Omaha',
-        state: 'Nebraska',
-    },
-];
-
-const Example = (data : any) => {
+const Example = (Units : any) => {
     //should be memoized or stable
-    const columns = useMemo<MRT_ColumnDef<Person>[]>(
+    const data = Units.data;
+    const columns = useMemo<MRT_ColumnDef<Unit>[]>(
         () => [
             {
-                accessorKey: 'name.firstName', //access nested data with dot notation
-                header: 'First Name',
-                size: 150,
+                accessorKey: 'unit_id', //access nested data with dot notation
+                header: 'Unit ID',
+                size: 20,
+                enableEditing: false,
             },
             {
-                accessorKey: 'name.lastName',
-                header: 'Last Name',
-                size: 150,
+                accessorKey: 'property_id', //access nested data with dot notation
+                header: 'Property ID',
+                size: 20,
             },
             {
-                accessorKey: 'address', //normal accessorKey
-                header: 'Address',
-                size: 200,
+                accessorKey: 'unit_number', //access nested data with dot notation
+                header: 'Unit Number',
+                size: 20,
             },
             {
-                accessorKey: 'city',
-                header: 'City',
-                size: 150,
+                accessorKey: 'monthly_rent', //access nested data with dot notation
+                header: 'Monthly Rent',
+                size: 20,
             },
             {
-                accessorKey: 'state',
-                header: 'State',
-                size: 150,
+                accessorKey: 'bedrooms', //access nested data with dot notation
+                header: 'Bedrooms',
+                size: 20,
+            },
+            {
+                accessorKey: 'bathrooms', //access nested data with dot notation
+                header: 'Bathrooms',
+                size: 20,
+            },
+            {
+                accessorKey: 'square_feet', //access nested data with dot notation
+                header: 'Square Footage',
+                size: 20,
             },
         ],
         [],
@@ -107,8 +71,7 @@ const Example = (data : any) => {
             <IconButton
                 key="delete"
                 onClick={() => {
-                    console.log(row.original);
-                    //deleteProperty(row.original);
+                    deleteUnit(row.original);
                 }}
             >
                 Delete
@@ -116,15 +79,15 @@ const Example = (data : any) => {
         ],
         onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
             const newValues ={
-                address: values.address,
-                city: values.city,
-                name: values.name,
-                phone: values.phone,
+                unit_id: row.original.unit_id,
                 property_id: values.property_id,
-                state: values.state,
-                zip: values.zip,
+                unit_number: values.unit_number,
+                monthly_rent: values.monthly_rent,
+                bedrooms: values.bedrooms,
+                bathrooms: values.bathrooms,
+                square_feet: values.square_feet,
             }
-            //updateProperty(newValues);
+            updateUnit(newValues);
             exitEditingMode();
         },
 
@@ -156,7 +119,7 @@ const Example = (data : any) => {
             </Box>
         ),
         onCreatingRowSave: ({ exitCreatingMode, row, table, values }) => {
-            //createProperty(values);
+            createUnit(values);
             exitCreatingMode();
         }
     });
