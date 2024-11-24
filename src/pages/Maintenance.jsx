@@ -159,7 +159,7 @@ export default function MaintenancePage() {
 
                 {/* Main content */}
                 <main>
-                    <div className={"px-28 pt-14"}>
+                    <div>
 
                         <MaintenanceTable data={maintenance}/>
                     </div>

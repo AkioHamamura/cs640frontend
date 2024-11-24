@@ -159,8 +159,7 @@ export default function PaymentsPage() {
 
                 {/* Main content */}
                 <main>
-                    <div className={"px-28 pt-14"}>
-
+                    <div>
                         <PaymentsTable data={payments}/>
                     </div>
                 </main>

@@ -159,8 +159,7 @@ export default function Properties() {
 
                 {/* Main content */}
                 <main>
-                    <div className={"px-28 pt-14"}>
-
+                    <div>
                         <PropertyTable data={properties}/>
                     </div>
                 </main>

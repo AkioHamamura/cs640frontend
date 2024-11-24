@@ -7,6 +7,117 @@ const endpoint = 'https://amplify.cs640.icu';
 export const getToken = () => {
     return Cookies.get('jwtToken');
 };
+/*--------------------------Create------------------------------------------*/
+//Create a new property
+export const createProperty = async (data) => {
+    const toekn = getToken();
+    if (!toekn){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/new/Properties`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${toekn}`,
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        return result;
+
+
+    }catch(e){console.error('Error:', e);}
+
+};
+//Create a new unit
+export const createUnit = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/new/Units`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};
+//Create a new user
+export const createUser = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/new/User`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};
+//Make a new maintenance request
+export const createMaintenanceRequest = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/new/MaintenanceRequests`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};
+
+//Create a new payment
+export const createPayment = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/new/Payments`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }catch(e){console.error('Error:', e);}
+};
+
 /*--------------------------Select------------------------------------------*/
 export const getPackages = async () => {
     const token = getToken();
@@ -88,7 +199,6 @@ export const getProperties = async () => {
             }
         });
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {console.error('Error:', error);}
 };
@@ -133,12 +243,29 @@ export const getResidents = async () => {
     }catch (e){
         console.error('Error:', e);
     }
-
-
 }
 
 /*--------------------------Select------------------------------------------*/
-
+//Select units
+export const getUnits = async() =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/Units`,{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }catch(e){console.error('Error:', e);}
+};
 /*--------------------------Update------------------------------------------*/
 //Edit property
 export const updateProperty = async (data) => {
@@ -205,5 +332,75 @@ export const updatePaymentStatus = async (data) =>{
         console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
+};
+//Update user information
+export const updateUser = async (data) =>{
 
+};
+//Update unit information
+export const updateUnit = async(data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/update/Units`,{
+            method:'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            //data should have unit_id, property_id, unit_number, monthly_rent, square_feet, bedrooms, bathrooms
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result);
+        return result;
+    }
+    catch(e){console.error('Error:', e);}
+};
+/*--------------------------Delete------------------------------------------*/
+//Delete property
+export const deleteProperty = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/delete/Properties`,{
+            method: "DELETE",
+            headers:{
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            redirect: 'follow'
+        })
+        const result = await response.json();
+        return result;
+    }catch(e){console.error('Error:', e);}
+}
+//Delete unit
+export const deleteUnit = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+        return;
+    }
+    try{
+        const response = await fetch(`${endpoint}/api/delete/Units`,{
+            method: "DELETE",
+            headers:{
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            } ,
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result);
+        return result;
+
+    }
+    catch(e){console.error('Error:', e);}
 };

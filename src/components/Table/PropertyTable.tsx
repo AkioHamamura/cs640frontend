@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
-import {updateProperty} from '../CRUD.jsx'
+// @ts-ignore
+import {updateProperty, createProperty, deleteProperty} from '../CRUD.jsx'
 
 import {
     MaterialReactTable,
     useMaterialReactTable,
-    type MRT_ColumnDef,
+    type MRT_ColumnDef, MRT_EditActionButtons,
 } from 'material-react-table';
 import React from 'react';
-import {Box, Button, IconButton} from "@mui/material";
+import {Box, Button, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 
 //example data type
 type Property = {
@@ -67,10 +68,19 @@ const PropertyTable = (Properties : any) => {
     );
 
     const table = useMaterialReactTable({
-        enableRowSelection: true,
-        enableMultiRowSelection: false,
         enableEditing: true,
         editDisplayMode: 'row',
+        renderRowActionMenuItems: ({ row, table }) => [
+            <IconButton
+                key="delete"
+                onClick={() => {
+                    console.log(row.original);
+                    deleteProperty(row.original);
+                }}
+            >
+                Delete
+            </IconButton>,
+        ],
         onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
             const newValues ={
                 address: values.address,
@@ -84,22 +94,35 @@ const PropertyTable = (Properties : any) => {
             updateProperty(newValues);
             exitEditingMode();
         },
-        renderBottomToolbar:({}) => (
-            <Box>
-                    <Button onClick={()=>{
-                        //Open a modal with a form to add a new user
-                        console.info('Add')
-                    }} variant="contained" color="success" >Add Property</Button>
-
-                    <Button onClick={()=>{
-                        //Open a modal with a form to add a new user
-                        console.info('Add')
-                    }} variant="contained" color="error" >Delete Property</Button>
-            </Box>
-        ),
 
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+        renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
+            <>
+                <DialogTitle >Add Property</DialogTitle>
+                <DialogContent
+                    sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+                >
+                    {internalEditComponents} {/* or render custom edit components here */}
+                </DialogContent>
+                <DialogActions>
+                    <MRT_EditActionButtons variant="text" table={table} row={row} />
+                </DialogActions>
+            </>
+        ),
+        renderBottomToolbar:({table}) => (
+            <Box>
+                    <Button onClick={()=>{
+                        //Open a modal with a form to add a new user
+                        table.setCreatingRow(true);
+                    }} variant="contained" color="success" >Add Property</Button>
+
+            </Box>
+        ),
+        onCreatingRowSave: ({ exitCreatingMode, row, table, values }) => {
+            createProperty(values);
+            exitCreatingMode();
+        }
     });
 
     return <MaterialReactTable table={table} />;

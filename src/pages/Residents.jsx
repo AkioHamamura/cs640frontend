@@ -159,8 +159,7 @@ export default function ResidentsPage() {
 
                 {/* Main content */}
                 <main>
-                    <div className={"px-28 pt-14"}>
-
+                    <div>
                     <ResidentsTable data={residents} />
                     </div>
                 </main>
