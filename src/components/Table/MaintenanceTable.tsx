@@ -4,10 +4,12 @@ import { useMemo } from 'react';
 import {
     MaterialReactTable,
     useMaterialReactTable,
-    type MRT_ColumnDef,
+    type MRT_ColumnDef, MRT_EditActionButtons,
 } from 'material-react-table';
 import React from 'react';
-import {updateMaintenanceRequest} from '../CRUD.jsx'
+// @ts-ignore
+import {createMaintenanceRequest, createPayment, updateMaintenanceRequest} from '../CRUD.jsx'
+import {Box, Button, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
 //example data type
 type Maintenance = {
@@ -46,18 +48,29 @@ const MaintenanceTable = (Maintenance : any) => {
                 accessorKey: 'description',
                 header: 'Description',
                 size: 50,
-                enableEditing: false,
+                enableEditing: row => row.original.description == '',
 
             },
             {
                 accessorKey: 'priority',
                 header: 'Priority',
                 size: 50,
+                editVariant: 'select',
+                editSelectOptions: [{value: 'Low', label: 'Low'},
+                    {value: 'Medium', label: 'Medium'},
+                    {value: 'High', label: 'High'},
+                    {value:'Emergency', label: 'Emergency'},
+                    {value:'Normal', label: 'Normal'}],
             },
             {
                 accessorKey: 'status',
                 header: 'Status',
                 size: 50,
+                editVariant: 'select',
+                editSelectOptions: [{value: 'Pending', label: 'Pending'},
+                    {value: 'In Progress', label: 'In Progress'},
+                    {value: 'Resolved', label: 'Resolved'},
+                    {value: 'Cancelled', label: 'Cancelled'}],
             },
             {
                 accessorKey: 'submitted_at',
@@ -90,7 +103,7 @@ const MaintenanceTable = (Maintenance : any) => {
 
     const table = useMaterialReactTable({
         enableEditing: true,
-        editDisplayMode: 'modal',
+        editDisplayMode: 'row',
         onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
             console.log(values);
             const newValues ={
@@ -104,6 +117,35 @@ const MaintenanceTable = (Maintenance : any) => {
         },
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+        renderCreateRowDialogContent: ({ table, row, internalEditComponents,  }) => (
+            <>
+                <>
+                    <DialogTitle >Make payment</DialogTitle>
+                    <DialogContent onClick={() => console.log(internalEditComponents)}
+                                   sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+                    >
+                        {internalEditComponents} {/* or render custom edit components here */}
+                    </DialogContent>
+                    <DialogActions>
+                        <MRT_EditActionButtons variant="text" table={table} row={row} />
+                    </DialogActions>
+                </>
+            </>
+
+        ),
+        renderBottomToolbar:({table}) => (
+            <Box>
+                <Button onClick={()=>{
+                    //Open a modal with a form to add a new user
+                    table.setCreatingRow(true);
+                }} variant="contained" color="success" >Request Maintenance</Button>
+
+            </Box>
+        ),
+        onCreatingRowSave: ({ exitCreatingMode, row, table, values }) => {
+            createMaintenanceRequest(values);
+            exitCreatingMode();
+        }
     });
 
     return <MaterialReactTable table={table} />;

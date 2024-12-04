@@ -8,25 +8,20 @@ import {
 } from 'material-react-table';
 import React from 'react';
 import {Box, Button, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
-import {createProperty, deleteProperty, updateProperty} from "@/components/CRUD";
+import {updateProperty, createUser, updateUser} from "../CRUD.jsx";
 
-//example data type
-/*
-
-
- */
 type Residents = {
-    unit_id: number;
-    address: string;
-    city: string;
     email: string;
     first_name: string;
     last_name: string;
+    user_phone: string;
+    unit_id: number;
+    address: string;
+    city: string;
     monthly_rent: number;
     name: string;
     property_id: number;
     state: string;
-    user_phone: string;
     zip: string;
 };
 
@@ -37,16 +32,14 @@ const ResidentsTable = (Residents : any) => {
 
     const columns = useMemo<MRT_ColumnDef<Residents>[]>(
         () => [
+
+
             {
-                accessorKey: 'property_id', //access nested data with dot notation
-                header: 'Property ID',
-                size: 10,
-            },
-            {
-                accessorKey: 'unit_id', //access nested data with dot notation
-                header: 'Unit ID',
+                accessorKey: 'email', //access nested data with dot notation
+                header: 'Email',
                 size: 50,
                 enableEditing: false,
+
             },
             {
                 accessorKey: 'first_name', //access nested data with dot notation
@@ -63,18 +56,27 @@ const ResidentsTable = (Residents : any) => {
 
             },
             {
-                accessorKey: 'email', //access nested data with dot notation
-                header: 'Email',
-                size: 50,
-                enableEditing: false,
-
-            },
-            {
                 accessorKey: 'user_phone', //access nested data with dot notation
                 header: 'Phone',
                 size: 50,
                 enableEditing: false,
 
+            },
+            {
+                accessorKey: 'unit_id', //access nested data with dot notation
+                header: 'Unit ID',
+                size: 50,
+                enableEditing: false,
+            },
+            {
+                accessorKey: 'monthly_rent', //access nested data with dot notation
+                header: 'Monthly Rent',
+                size: 50,
+            },
+            {
+                accessorKey: 'property_id', //access nested data with dot notation
+                header: 'Property ID',
+                size: 10,
             },
             {
                 accessorKey: 'address', //access nested data with dot notation
@@ -103,11 +105,6 @@ const ResidentsTable = (Residents : any) => {
                 size: 50,
                 enableEditing: false,
 
-            },
-            {
-                accessorKey: 'monthly_rent', //access nested data with dot notation
-                header: 'Monthly Rent',
-                size: 50,
             },
 
         ],
@@ -164,7 +161,7 @@ const ResidentsTable = (Residents : any) => {
                 <Button onClick={()=>{
                     //Open a modal with a form to add a new user
                     table.setCreatingRow(true);
-                }} variant="contained" color="success" >Add Property</Button>
+                }} variant="contained" color="success" >Create User</Button>
 
             </Box>
         ),

@@ -229,7 +229,7 @@ export const getResidents = async () => {
         return;
     }
     try{
-        const response = await fetch(`${endpoint}/api/adv/Residents`,{
+        const response = await fetch(`${endpoint}/api/adv/UserInfo`,{
            method: 'GET',
             headers:{
                'Content-Type': 'application/json',
@@ -335,6 +335,11 @@ export const updatePaymentStatus = async (data) =>{
 };
 //Update user information
 export const updateUser = async (data) =>{
+    const token = getToken();
+    if (!token){
+        console.error('No token Found, Please login');
+    }
+
 
 };
 //Update unit information
