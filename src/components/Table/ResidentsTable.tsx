@@ -56,7 +56,7 @@ const ResidentsTable = (Residents : any) => {
 
             },
             {
-                accessorKey: 'user_phone', //access nested data with dot notation
+                accessorKey: 'phone', //access nested data with dot notation
                 header: 'Phone',
                 size: 50,
                 enableEditing: false,
