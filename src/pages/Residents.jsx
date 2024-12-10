@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import {getResidents} from "../components/CRUD";
+import {getResidents, getUnits} from "../components/CRUD";
 import ResidentsTable from "../components/Table/ResidentsTable.tsx";
 const user = {
     name: 'Tom Cook',
@@ -26,7 +26,14 @@ function classNames(...classes) {
 }
 
 
+
 export default function ResidentsPage() {
+    //Get a list of all unit ids, will be used for a dropdown menu in the table when creating a new user or updating a user
+    const [unitIds, setUnitIds] = useState([]);
+    useEffect(() => {
+        getUnits().then(data => setUnitIds(data));
+    }, []);
+
     const [residents, setResidents] = useState([]);
     useEffect(() => {
         getResidents().then(data => setResidents(data));
@@ -160,7 +167,7 @@ export default function ResidentsPage() {
                 {/* Main content */}
                 <main>
                     <div>
-                    <ResidentsTable data={residents} />
+                    <ResidentsTable data={[residents, unitIds]}/>
                     </div>
                 </main>
                 {/* Main content */}

@@ -25,7 +25,6 @@ export const createProperty = async (data) => {
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
         return result;
 
 
@@ -49,13 +48,13 @@ export const createUnit = async (data) =>{
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
 //Create a new user
 export const createUser = async (data) =>{
     const token = getToken();
+    console.log(data);
     if (!token){
         console.error('No token Found, Please login');
         return;
@@ -70,7 +69,6 @@ export const createUser = async (data) =>{
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -91,7 +89,6 @@ export const createMaintenanceRequest = async (data) =>{
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -113,7 +110,6 @@ export const createPayment = async (data) =>{
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -137,7 +133,6 @@ export const getPackages = async () => {
         .then(response => response.json())
         .then(data => result = (data))
         .catch(error => console.error('Error:', error));
-    console.log(result);
     //return result;
 };
 
@@ -156,7 +151,6 @@ export const getPayments = async () => {
             }
         });
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {console.error('Error:', error);}
 }
@@ -179,7 +173,6 @@ export const getUsers = async () => {
         .then(response => response.json())
         .then(data => result = (data))
         .catch(error => console.error('Error:', error));
-    console.log(result);
     return result;
 };
 
@@ -217,7 +210,6 @@ export const getMaintenanceRequests = async () =>{
             }
         });
         const data = await response.json();
-        console.log(data);
         return data;
     }catch(e){console.error('Error:', e);}
 
@@ -237,7 +229,6 @@ export const getResidents = async () => {
             }
         });
         const data = await response.json();
-        console.log(data);
         return data;
 
     }catch (e){
@@ -262,14 +253,12 @@ export const getUnits = async() =>{
             }
         });
         const data = await response.json();
-        console.log(data);
         return data;
     }catch(e){console.error('Error:', e);}
 };
 /*--------------------------Update------------------------------------------*/
 //Edit property
 export const updateProperty = async (data) => {
-    console.log(data);
     const token = getToken();
     if (!token){
         console.error('No token Found, Please login');
@@ -285,7 +274,6 @@ export const updateProperty = async (data) => {
             body: JSON.stringify(data)
         })
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -307,7 +295,6 @@ export const updateMaintenanceRequest = async (data) =>{
             body: JSON.stringify(data)
         })
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -329,7 +316,6 @@ export const updatePaymentStatus = async (data) =>{
             body: JSON.stringify(data)
         })
         const result = await response.json();
-        console.log(result);
         return result;
     }catch(e){console.error('Error:', e);}
 };
@@ -339,6 +325,19 @@ export const updateUser = async (data) =>{
     if (!token){
         console.error('No token Found, Please login');
     }
+    try{
+        const response = await fetch(`${endpoint}/api/update/Users`,{
+            method:'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        return result;
+    }
+    catch(e){console.error('Error:', e);}
 
 
 };
@@ -359,7 +358,6 @@ export const updateUnit = async(data) =>{
             body: JSON.stringify(data)
         })
         const result = await response.json();
-        console.log(result);
         return result;
     }
     catch(e){console.error('Error:', e);}
@@ -403,7 +401,6 @@ export const deleteUnit = async (data) =>{
             body: JSON.stringify(data)
         })
         const result = await response.json();
-        console.log(result);
         return result;
 
     }

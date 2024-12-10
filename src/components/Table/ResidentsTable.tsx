@@ -7,11 +7,13 @@ import {
     type MRT_ColumnDef, MRT_RowSelectionState, MRT_EditActionButtons,
 } from 'material-react-table';
 import React from 'react';
-import {Box, Button, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
-import {updateProperty, createUser, updateUser} from "../CRUD.jsx";
+import {Box, Button, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem} from "@mui/material";
+// @ts-ignore
+import {createUser, updateUser, getUnits} from '../CRUD.jsx';
 
 type Residents = {
     email: string;
+    _hash: string;
     first_name: string;
     last_name: string;
     user_phone: string;
@@ -25,58 +27,64 @@ type Residents = {
     zip: string;
 };
 
-const ResidentsTable = (Residents : any) => {
+
+
+const ResidentsTable = (Residents : any, UnitId: any) => {
 
     //should be memoized or stable
-    const data: Residents[] = Residents.data;
+    const data: Residents[] = Residents.data[0];
+    const units: number[] = Residents.data[1];
+    const unitArray = units.map((units: any) => units.unit_id);
+
 
     const columns = useMemo<MRT_ColumnDef<Residents>[]>(
         () => [
-
-
             {
                 accessorKey: 'email', //access nested data with dot notation
                 header: 'Email',
                 size: 50,
-                enableEditing: false,
-
+            },
+            {
+                accessorKey: 'password_hash',
+                header: 'Password',
+                size: 50,
             },
             {
                 accessorKey: 'first_name', //access nested data with dot notation
                 header: 'First Name',
                 size: 50,
-                enableEditing: false,
-
             },
             {
                 accessorKey: 'last_name', //access nested data with dot notation
                 header: 'Last Name',
                 size: 50,
-                enableEditing: false,
-
             },
             {
                 accessorKey: 'phone', //access nested data with dot notation
                 header: 'Phone',
                 size: 50,
-                enableEditing: false,
-
             },
             {
-                accessorKey: 'unit_id', //access nested data with dot notation
+                accessorKey: 'unit_id',
                 header: 'Unit ID',
                 size: 50,
-                enableEditing: false,
+                editVariant: 'select',
+                editSelectOptions: unitArray.map((unit: number) => ({ value: unit, label: unit.toString() })),
+
             },
             {
                 accessorKey: 'monthly_rent', //access nested data with dot notation
                 header: 'Monthly Rent',
                 size: 50,
+                enableEditing: false,
+
             },
             {
                 accessorKey: 'property_id', //access nested data with dot notation
                 header: 'Property ID',
                 size: 10,
+                enableEditing: false,
+
             },
             {
                 accessorKey: 'address', //access nested data with dot notation
@@ -108,17 +116,17 @@ const ResidentsTable = (Residents : any) => {
             },
 
         ],
-        [],
+        [unitArray],
     );
     const table = useMaterialReactTable({
         enableEditing: true,
         editDisplayMode: 'row',
+        initialState:{columnVisibility: {password_hash: false}},
         renderRowActionMenuItems: ({ row, table }) => [
             <IconButton
                 key="delete"
                 onClick={() => {
                     console.log(row.original);
-                    //deleteProperty(row.original);
                 }}
             >
                 Delete
@@ -126,15 +134,13 @@ const ResidentsTable = (Residents : any) => {
         ],
         onEditingRowSave: ({ exitEditingMode, row, table, values }) => {
             const newValues ={
-                address: values.address,
-                city: values.city,
-                name: values.name,
+                email: values.email,
+                first_name: values.first_name,
+                last_name: values.last_name,
                 phone: values.phone,
-                property_id: values.property_id,
-                state: values.state,
-                zip: values.zip,
+                unit_id: values.unit_id,
             }
-            //updateProperty(newValues);
+            updateUser(newValues);
             exitEditingMode();
         },
 
@@ -143,14 +149,12 @@ const ResidentsTable = (Residents : any) => {
         renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
             <>
                 <>
-                    <DialogTitle >Add Unit</DialogTitle>
-                    <DialogContent
-                        sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-                    >
-                        {internalEditComponents} {/* or render custom edit components here */}
+                    <DialogTitle >Create User</DialogTitle>
+                    <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {internalEditComponents}{/* required */}
                     </DialogContent>
                     <DialogActions>
-                        <MRT_EditActionButtons variant="text" table={table} row={row} />
+                        <MRT_EditActionButtons variant="text" table={table} row={row}/>
                     </DialogActions>
                 </>
             </>
@@ -159,14 +163,14 @@ const ResidentsTable = (Residents : any) => {
         renderBottomToolbar:({table}) => (
             <Box>
                 <Button onClick={()=>{
-                    //Open a modal with a form to add a new user
                     table.setCreatingRow(true);
                 }} variant="contained" color="success" >Create User</Button>
 
             </Box>
         ),
         onCreatingRowSave: ({ exitCreatingMode, row, table, values }) => {
-            //createProperty(values);
+            console.log(createUser(values));
+            createUser(values);
             exitCreatingMode();
         }
     });
